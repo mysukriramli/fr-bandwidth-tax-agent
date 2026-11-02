@@ -7,6 +7,11 @@ from fr_tax.tools import (
 )
 from fr_tax.calendar import get_compliance_deadlines
 
+def json_default(obj):
+    if isinstance(obj, Decimal):
+        return str(obj)
+    raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
+
 def main():
     print("=" * 60)
     print("FR-BANDWIDTH-TAX-AGENT: STATUTORY AUDIT & FINOPS SIMULATION")
@@ -21,7 +26,7 @@ def main():
         turnover_global=5000000.0,
         subscribers_fr=10000
     )
-    print(json.dumps(tax_output, indent=2))
+    print(json.dumps(tax_output, indent=2, default=json_default))
 
     # 2. High-Volume Streaming Workload Simulation
     print("\n[SCENARIO 2] 30-Day Video Streaming Workload (5,000 Concurrent 1080p Streams):")
@@ -31,7 +36,7 @@ def main():
         hours_per_day=3.0,
         days=30
     )
-    print(json.dumps(streaming_output, indent=2))
+    print(json.dumps(streaming_output, indent=2, default=json_default))
 
     # 3. Autonomous Payload Distribution Economics (AI Weights Delivery)
     print("\n[SCENARIO 3] AI Model Checkpoint (70 GB Open-Weights, €5.00 Commercial License):")
@@ -40,7 +45,7 @@ def main():
         sale_price_eur=5.00,
         cdn_cost_per_gb=0.005
     )
-    print(json.dumps(decision, indent=2))
+    print(json.dumps(decision, indent=2, default=json_default))
 
     # 4. DGFiP Compliance Deadlines
     print("\n[SCENARIO 4] DGFiP Statutory Filing & Settlement Deadlines (Tax Year 2026):")
