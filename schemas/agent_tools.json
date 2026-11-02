@@ -1,0 +1,92 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "calculate_french_data_tax",
+      "description": "Calculates tax liability under France's proposed €0.055/GB bandwidth tax with statutory revenue caps (15% French / 2% Global).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "volume": {
+            "type": "number",
+            "description": "Total data volume delivered to French users."
+          },
+          "unit": {
+            "type": "string",
+            "enum": ["B", "MB", "GB", "TB", "PB", "MiB", "GiB", "TiB"],
+            "default": "GB"
+          },
+          "turnover_fr": {
+            "type": "number",
+            "description": "Annual French company turnover in EUR (for 15% statutory cap calculation)."
+          },
+          "turnover_global": {
+            "type": "number",
+            "description": "Annual global turnover in EUR (for 2% statutory cap calculation)."
+          },
+          "subscribers_fr": {
+            "type": "integer",
+            "description": "Total active French subscriber base to calculate pass-through cost per user."
+          }
+        },
+        "required": ["volume"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "simulate_streaming_workload",
+      "description": "Calculates aggregate bandwidth consumption and tax for live or on-demand video streaming workloads delivered to French users.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "concurrent_users": {
+            "type": "integer",
+            "description": "Number of concurrent streams."
+          },
+          "average_bitrate_mbps": {
+            "type": "number",
+            "description": "Average stream bitrate in Megabits per second (Mbps)."
+          },
+          "hours_per_day": {
+            "type": "number",
+            "description": "Average viewing hours per user per day."
+          },
+          "days": {
+            "type": "integer",
+            "default": 30,
+            "description": "Assessment window in days."
+          }
+        },
+        "required": ["concurrent_users", "average_bitrate_mbps", "hours_per_day"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "assess_distribution_economics",
+      "description": "Determines whether a digital payload (e.g., game download, AI checkpoint, video stream) can be profitably delivered to France under the €0.055/GB tax.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "payload_gb": {
+            "type": "number",
+            "description": "Size of asset in gigabytes."
+          },
+          "sale_price_eur": {
+            "type": "number",
+            "description": "Revenue generated per download/transaction in EUR."
+          },
+          "cdn_cost_per_gb": {
+            "type": "number",
+            "default": 0.005,
+            "description": "CDN transit cost per gigabyte in EUR."
+          }
+        },
+        "required": ["payload_gb", "sale_price_eur"]
+      }
+    }
+  }
+]
