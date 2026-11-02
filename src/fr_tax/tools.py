@@ -82,4 +82,4 @@ def assess_distribution_economics(
         revenue_per_unit_eur=Decimal(str(sale_price_eur)),
         cdn_cost_per_gb_eur=Decimal(str(cdn_cost_per_gb)),
     )
-    return decision.model_dump()
+    return json.loads(decision.model_dump_json())
